@@ -39,7 +39,13 @@ header('Content-type: text/plain; charset=UTF-8');
 if($repo === 'testing' || $repo === 'nethforge-testing') {
     $mirrors = array('http://packages.nethserver.org/nethserver');
 } else if (in_array($repo, array_keys($ce_repos))) {
-    $mirrors = file("ce-mirrors");
+    // CentOS versions served by mirror infrastructure,
+    // otherwise fallback to vault.centos.org:
+    if(in_array($release, array('6.9', '7.5.1804'))) {
+        $mirrors = file("ce-mirrors");
+    } else {
+        $mirrors = array('http://vault.centos.org');
+    }
     $repo = $ce_repos[$repo]; # map to real repository name
 } else {
     $mirrors = file("mirrors");
