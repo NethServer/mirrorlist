@@ -19,7 +19,12 @@ $ce_repos = array(
     'ce-extras' => 'extras',
 );
 
-$valid_release = in_array($release, array('6', '7'));
+$latest_releases = array(
+    '6' => '6.9',
+    '7' => '7.5.1804',
+);
+
+$valid_release = in_array($release, array_keys($latest_releases));
 $valid_nsrelease = in_array($nsrelease, array('6.8','6.9','7.3.1611','7.4.1708','7.5.1804'));
 $valid_arch = in_array($arch, array('x86_64'));
 $valid_repo = in_array($repo, array_merge($ns_repos,array_keys($ce_repos)));
@@ -27,6 +32,8 @@ $valid_repo = in_array($repo, array_merge($ns_repos,array_keys($ce_repos)));
 # nsrelease overrides release
 if ( $valid_nsrelease ) {
     $release = $nsrelease;
+} else {
+    $release = $latest_releases[$release];
 }
 
 if( ! $valid_release || ! $valid_arch || ! $valid_repo ) {
