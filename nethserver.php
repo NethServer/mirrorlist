@@ -44,6 +44,11 @@ $ce_repos = array(
     'ce-extras' => 'extras',
 );
 
+// Remap machine architecture to repo architecture:
+if($arch == 'armv7hl') {
+    $arch = 'armhfp';
+}
+
 $valid_release = in_array($release, array_keys($stable_releases));
 $valid_nsrelease = in_array($nsrelease, array_merge($stable_releases, $development_releases, $vault_releases)) && ($nsrelease[0] == $release[0]);
 $valid_arch = in_array($arch, array_merge($stable_arches, $development_arches));

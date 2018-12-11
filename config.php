@@ -60,6 +60,6 @@ $stable_arches = array(
 );
 
 $development_arches = array(
-    'armv7hl',
+    'armhfp',
     'aarch64',
 );
