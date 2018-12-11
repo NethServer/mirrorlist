@@ -50,3 +50,16 @@ $development_repos = array(
     'testing',
     'nethforge-testing',
 );
+
+
+// Alternative architectures:
+// - stable goes to mirror,
+// - development goes to packages.nethserver.org
+$stable_arches = array(
+    'x86_64',
+);
+
+$development_arches = array(
+    'armv7hl',
+    'aarch64',
+);

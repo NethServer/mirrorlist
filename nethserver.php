@@ -46,7 +46,7 @@ $ce_repos = array(
 
 $valid_release = in_array($release, array_keys($stable_releases));
 $valid_nsrelease = in_array($nsrelease, array_merge($stable_releases, $development_releases, $vault_releases)) && ($nsrelease[0] == $release[0]);
-$valid_arch = in_array($arch, array('x86_64'));
+$valid_arch = in_array($arch, array_merge($stable_arches, $development_arches));
 $valid_repo = in_array($repo, array_merge($ns_repos,array_keys($ce_repos)));
 
 if( ! $valid_release || ! $valid_arch || ! $valid_repo ) {
@@ -62,7 +62,10 @@ if ( ! $valid_nsrelease ) {
 header('Content-type: text/plain; charset=UTF-8');
 
 $served_by_nethserver_mirrors = in_array($repo, $ns_repos)
-  && ! (in_array($nsrelease, $vault_releases) || in_array($repo, $development_repos) || in_array($nsrelease, $development_releases))
+  && ! (in_array($nsrelease, $vault_releases)
+        || in_array($repo, $development_repos)
+        || in_array($nsrelease, $development_releases)
+        || in_array($arch, $development_arches))
 ;
 
 if($served_by_nethserver_mirrors) {
