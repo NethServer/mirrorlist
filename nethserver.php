@@ -42,6 +42,8 @@ $ce_repos = array(
     'ce-base' => 'os',
     'ce-updates' => 'updates',
     'ce-extras' => 'extras',
+    'ce-sclo-sclo' => 'sclo-sclo',
+    'ce-sclo-rh' => 'sclo-rh',
 );
 
 // Remap machine architecture to repo architecture:
