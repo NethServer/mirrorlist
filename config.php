@@ -37,8 +37,8 @@ $ce_mirror_countries = array(
     'au' => 1,
     'br' => 1,
     'cn' => 1,
+    'gb' => 2,
     'it' => 2,
-    'uk' => 2,
     'us' => 2,
     'za' => 1,
 );
