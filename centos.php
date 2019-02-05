@@ -21,7 +21,7 @@
  */
 
 // Redirect to upstream mirrorlist: required by NethServer 6
-// In ns7 the client goes directly to CentOS mirrors.
+// In ns7 the the mirror list is returned by nethserver.php
 
 // Global definition of latest, valult, and development releases:
 include 'config.php';

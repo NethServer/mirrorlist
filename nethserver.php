@@ -22,6 +22,7 @@
 
 // Global definition of latest, valult, and development releases:
 include 'config.php';
+require_once('mirrorcache.php');
 
 $release = $_GET['release'];
 
@@ -89,11 +90,11 @@ if($served_by_nethserver_mirrors) {
         $mirrors = array('http://vault.centos.org');
     } else {
         // CentOS versions served by upstream mirror infrastructure
-        $mirrors = file("ce-mirrors");
+        $mirrors = get_centos_mirrors($ce_mirror_countries, $release, $arch);
     }
 } else {
     // Serverd only by the NethServer master mirror
-    $mirrors = array('http://packages.nethserver.org/nethserver');
+    $mirrors = array('http://mirror.nethserver.org/nethserver');
 }
 
 foreach($mirrors as $mirror) {
