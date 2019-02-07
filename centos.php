@@ -35,7 +35,7 @@ $arch = $_GET['arch'];
 $repo = $_GET['repo'];
 
 $valid_release = $release == '6';
-$valid_nsrelease = in_array($nsrelease, array_merge($stable_releases, $development_releases, $vault_releases)) && ($nsrelease[0] == $release[0]);
+$valid_nsrelease = in_array($nsrelease, array_merge($stable_releases, $vault_releases)) && ($nsrelease[0] == $release[0]);
 $valid_arch = in_array($arch, array('x86_64'));
 $valid_repo = in_array($repo, array('os', 'updates'));
 

@@ -37,15 +37,10 @@ $ce_mirror_countries = array(
 );
 
 // Upstream versions served by vault.centos.org. It implies the same NethServer
-// releases aren't served by NethServer mirrors any more.
+// releases aren't served by NethServer mirrors any more. Add the release
+// numbers here to prevent undesired upgrades when yum-cron runs.
 $vault_releases = array(
     '7.5.1804',
-);
-
-// Other valid release numbers for upcoming NethServer releases. If not listed
-// here, an unknown nsrelease number is mapped to the stable release (i.e. the
-// system is upgraded to latest stable). Always served by packages.nethserver.org.
-$development_releases = array(
 );
 
 // Repositories that are always served by packages.nethserver.org
