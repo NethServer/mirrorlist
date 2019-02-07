@@ -80,7 +80,8 @@ $served_by_nethserver_mirrors = in_array($repo, $ns_repos)
 ;
 
 if($served_by_nethserver_mirrors) {
-    $mirrors = file("mirrors");
+    // trim leading CC-prefix and trailing slash:
+    $mirrors = preg_replace('/(^\w\w|\/$)/', '', file("mirrors"));
 } elseif (in_array($repo, array_keys($ce_repos))) {
     // map to real repository name, extracting the $repo_suffix (required by SCLo):
     list($repo, $repo_suffix) = array_merge(explode('-', $ce_repos[$repo], 2), array(''));

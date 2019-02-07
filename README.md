@@ -9,6 +9,13 @@ If you want to host a NethServer mirror
 * Read the community [HowTo](https://community.nethserver.org/t/how-to-create-your-own-nethserver-mirror/344)
 * Edit [mirrors](https://github.com/NethServer/mirrorlist/edit/master/mirrors)
 
+The `mirrors` file format follows these rules:
+
+1. each line represents a mirror record
+2. the line begins with the two letters country code where the mirror is 
+   located, followed by a single space separator (e.g. `us `)
+3. the line continues with the base mirror URL (e.g. `http://mirror.nethserver.org/nethserver/`)
+
 ## Mirror status
 
 A couple of `mirmon` instances run on `mirror-status.nethserver.org`:

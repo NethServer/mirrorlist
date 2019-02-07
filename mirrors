@@ -1,18 +1,18 @@
-http://mirror.nethserver.org/nethserver
-http://mirror1.nethserver.org/nethserver
-https://mirror.nethesis.it/nethserver
-http://nethserver.de-labrusse.fr
-http://mirror.framassa.org/nethserver
-http://mirror.nordest.systems/nethserver
-https://mirror.alpix.eu/nethserver
-http://mrmarkuz.goip.de/mirror/nethserver
-https://mirror.pcxlan.es/nethserver
-https://markusneuberger.at/mirror/nethserver
-http://buck.goip.de/nethserver
-http://mrmarkuz.dynu.net/nethserver
-http://server.liftingtrade.hu/nethserver
-http://ketrax.eu/nethserver
-http://ns-mirror1.ibi.net.br
-http://ns-mirror2.ibi.net.br
-http://ns-mirror3.ibi.net.br
-http://nethserver.interlin.nl/nethserver
+us http://mirror.nethserver.org/nethserver/
+nl http://mirror1.nethserver.org/nethserver/
+it https://mirror.nethesis.it/nethserver/
+fr http://nethserver.de-labrusse.fr/
+fr http://mirror.framassa.org/nethserver/
+fr http://mirror.nordest.systems/nethserver/
+de https://mirror.alpix.eu/nethserver/
+at http://mrmarkuz.goip.de/mirror/nethserver/
+es https://mirror.pcxlan.es/nethserver/
+at https://markusneuberger.at/mirror/nethserver/
+at http://buck.goip.de/nethserver/
+de http://mrmarkuz.dynu.net/nethserver/
+hu http://server.liftingtrade.hu/nethserver/
+hu http://ketrax.eu/nethserver/
+br http://ns-mirror1.ibi.net.br/
+br http://ns-mirror2.ibi.net.br/
+br http://ns-mirror3.ibi.net.br/
+de http://nethserver.interlin.nl/nethserver/
