@@ -22,10 +22,20 @@
 
 function _build_cache($release, $arch, $cc_list, $cache_file)
 {
+    $ch = fopen($cache_file, 'c');
+    $wouldblock = NULL;
+    flock($ch, LOCK_EX | LOCK_NB, $wouldblock);
+    if($wouldblock) {
+        flock($ch, LOCK_UN);
+        fclose($ch);
+        error_log("[NOTICE] Skip the cache building because the file is locked by another process: $cache_file");
+        return;
+    }
+
     error_log("[NOTICE] Rebuilding mirror cache $cache_file");
 
     $requests = array();
-    
+
     $filter_url = function ($url) {
         if(filter_var($url, FILTER_VALIDATE_URL)) {
             $url = preg_replace('/\/[0-9]\.[0-9].*$/', '', $url, 1);
@@ -33,7 +43,7 @@ function _build_cache($release, $arch, $cc_list, $cache_file)
         }
         return FALSE;
     };
-    
+
     foreach($cc_list as $cc) {
         $rh = curl_init();
         curl_setopt($rh, CURLOPT_URL, "http://mirrorlist.centos.org/?release=${release}&arch=${arch}&repo=updates&cc=${cc}");
@@ -43,34 +53,32 @@ function _build_cache($release, $arch, $cc_list, $cache_file)
         curl_close($rh);
     }
 
-    file_put_contents($cache_file, json_encode($response));
+    ftruncate($ch, 0);
+    fwrite($ch, json_encode($response));
+    flock($ch, LOCK_UN);
+    fclose($ch);
 }
 
 function _get_cached_mirror_list($cache_file, $weights)
 {
     $mirrors = array();
-    $cache_contents = json_decode(file_get_contents($cache_file), TRUE);
-    if( $cache_contents === FALSE ) {
-        error_log("[WARNING] the cache file cannot be parsed. Removing $cache_file");
-        unlink($cache_file);
-    }
+    $ch = fopen($cache_file, 'r');
+    flock($ch, LOCK_SH);
+    $cache_contents = json_decode(stream_get_contents($ch), TRUE);
+    flock($ch, LOCK_UN);
+    fclose($ch);
 
-    // pick $qty mirrors for each $cc (country code)
-    foreach($weights as $cc => $qty) {
-        for($i = 0; $i < $qty; $i++) {
-            if(isset($cache_contents[$cc][$i])) {
-                $mirrors[] = $cache_contents[$cc][$i];
-            } else {
-                error_log("[WARNING] the cache contents are inconsistent. Removing $cache_file");
-                unlink($cache_file);
+    if( $cache_contents === FALSE ) {
+        error_log("[WARNING] the cache file cannot be parsed: $cache_file");
+    } else {
+        // pick $qty mirrors for each $cc (country code)
+        foreach($weights as $cc => $qty) {
+            for($i = 0; $i < $qty; $i++) {
+                if(isset($cache_contents[$cc][$i])) {
+                    $mirrors[] = $cache_contents[$cc][$i];
+                }
             }
         }
-    }
-    
-    // append the master centos mirror to ensure a non empty list always exists:
-    if(empty($mirrors)) {
-        error_log("[WARNING] mirror cache is empty. Returning the master centos mirror.");
-        $mirrors = array('http://mirror.centos.org/centos');
     }
 
     return array_slice($mirrors, 0, array_sum($weights));
@@ -80,8 +88,21 @@ function get_centos_mirrors($weights, $release, $arch)
 {
     $cache_file = "/var/cache/mirrorlist/centos-mirrors.${release}.${arch}.ini";
     $max_timestamp = time() - 3600 * 4;
-    if(! file_exists($cache_file) || filemtime($cache_file) < $max_timestamp) {
-        _build_cache($release, $arch, array_keys($weights), $cache_file);
+
+    if(file_exists($cache_file) && filemtime($cache_file) >= $max_timestamp) {
+        // Valid cache file
+        $mirrors = _get_cached_mirror_list($cache_file, $weights);
+    } else {
+        // Invalid cache file
+        $mirrors = array();
     }
-    return _get_cached_mirror_list($cache_file, $weights);
+
+    // Invalid cache file or invalid cache contents: trigger cache rebuild
+    if(empty($mirrors)) {
+        _build_cache($release, $arch, array_keys($weights), $cache_file);
+        $mirrors = _get_cached_mirror_list($cache_file, $weights);
+    }
+
+    // fallback to default mirrorlist or return valid entries
+    return empty($mirrors) ? array('http://mirror.centos.org/centos') : $mirrors;
 }
