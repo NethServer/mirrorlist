@@ -24,7 +24,9 @@
 // In ns7 the the mirror list is returned by nethserver.php
 
 // Global definition of latest, valult, and development releases:
-include 'config.php';
+require_once('config.php');
+require_once('mirrorcache.php');
+
 
 $release = $_GET['release'];
 // Read nsrelease from URL path for ns6 (i.e. 6.9/centos?...)
@@ -50,18 +52,11 @@ if ( ! $valid_nsrelease ) {
 header('Content-type: text/plain; charset=UTF-8');
 
 if(in_array($nsrelease, $vault_releases)) {
-    echo "http://vault.centos.org/$nsrelease/$repo/$arch/\n";
-    exit(0);
-} elseif(in_array($nsrelease, $development_releases) || $stable_releases[$release] == $centos_releases[$release]) {
-    // Served by upstream mirrors:
-    header(sprintf('Location: http://mirrorlist.centos.org/?release=%s&arch=%s&repo=%s',
-                   $release, $arch, $repo));
-    exit(0);
+    $mirrors = array('http://vault.centos.org/');
 } else {
-    // Version lock for ns6
-    $mirrors = file("ce-mirrors");
-    foreach($mirrors as $mirror) {
-        echo trim($mirror)."/$nsrelease/$repo/$arch/\n";
-    }
-    exit(0);
+    $mirrors = get_centos_mirrors($ce_mirror_countries, $release, $arch);
+}
+
+foreach($mirrors as $mirror) {
+    echo trim($mirror)."/$nsrelease/$repo/$arch/\n";
 }

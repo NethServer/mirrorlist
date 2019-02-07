@@ -35,9 +35,6 @@ CentOS repositories, or it redirects to mirrorlist.centos.org.
 
 Common use cases:
 
-- When a new, stable, upstream, CentOS release is available, update
-  ``$centos_releases``
-
 - When a new development version of NethServer is available, list it in
   ``$development_releases``
 

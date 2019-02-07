@@ -26,13 +26,6 @@ $stable_releases = array(
     '7' => '7.6.1810',
 );
 
-// Map an upstream major version number to the latest stable CentOS release.
-// Update as soon as CentOS releases a new stable version.
-$centos_releases = array(
-    '6' => '6.10',
-    '7' => '7.6.1810',
-);
-
 $ce_mirror_countries = array(
     'au' => 1,
     'br' => 1,
