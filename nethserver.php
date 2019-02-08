@@ -21,7 +21,7 @@
  */
 
 // Global definition of latest, valult, and development releases:
-include 'config.php';
+require_once('config.php');
 require_once('mirrorcache.php');
 
 $release = $_GET['release'];
@@ -61,17 +61,14 @@ $valid_nsrelease = in_array($nsrelease, array_merge($stable_releases, $vault_rel
 $valid_arch = in_array($arch, array_merge($stable_arches, $development_arches));
 $valid_repo = in_array($repo, array_merge($ns_repos,array_keys($ce_repos)));
 
-if( ! $valid_release || ! $valid_arch || ! $valid_repo ) {
+header('Content-type: text/plain; charset=UTF-8');
+
+if( ! $valid_release || ! $valid_arch || ! $valid_repo || ! $valid_nsrelease ) {
     header("HTTP/1.0 404 Not Found");
+    echo "Invalid release/repo/arch\n";
     exit(1);
 }
 
-if ( ! $valid_nsrelease ) {
-    // Return the latest stable release:
-    $nsrelease = $stable_releases[$release];
-}
-
-header('Content-type: text/plain; charset=UTF-8');
 
 $served_by_nethserver_mirrors = in_array($repo, $ns_repos)
   && ! (in_array($nsrelease, $vault_releases)

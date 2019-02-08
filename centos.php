@@ -39,17 +39,13 @@ $valid_nsrelease = in_array($nsrelease, array_merge($stable_releases, $vault_rel
 $valid_arch = in_array($arch, array('x86_64'));
 $valid_repo = in_array($repo, array('os', 'updates'));
 
-if( ! $valid_release || ! $valid_arch || ! $valid_repo ) {
+header('Content-type: text/plain; charset=UTF-8');
+
+if( ! $valid_release || ! $valid_arch || ! $valid_repo || ! $valid_nsrelease ) {
     header("HTTP/1.0 404 Not Found");
+    echo "Invalid release/repo/arch\n";
     exit(1);
 }
-
-if ( ! $valid_nsrelease ) {
-    // Return the latest stable release:
-    $nsrelease = $stable_releases[$release];
-}
-
-header('Content-type: text/plain; charset=UTF-8');
 
 if(in_array($nsrelease, $vault_releases)) {
     $mirrors = array('http://vault.centos.org/');
