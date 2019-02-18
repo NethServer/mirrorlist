@@ -20,22 +20,16 @@
  * along with NethServer.  If not, see COPYING.
  */
 
-function _build_cache($release, $arch, $cc_list, $cache_file)
+
+function _get_cache_file_name($release, $arch) {
+    return "/var/cache/httpd/mirrorlist-centos-${release}.${arch}.lst";
+}
+
+/**
+ * Run this function in a cronjob to refresh the mirrors cache
+ */ 
+function refresh_centos_mirrors_cache($cc_map, $release, $arch)
 {
-    $ch = fopen($cache_file, 'c');
-    $wouldblock = NULL;
-    flock($ch, LOCK_EX | LOCK_NB, $wouldblock);
-    if($wouldblock) {
-        flock($ch, LOCK_UN);
-        fclose($ch);
-        error_log("[NOTICE] Skip the cache building because the file is locked by another process: $cache_file");
-        return;
-    }
-
-    error_log("[NOTICE] Rebuilding mirror cache $cache_file");
-
-    $requests = array();
-
     $filter_url = function ($url) {
         if(filter_var($url, FILTER_VALIDATE_URL)) {
             $url = preg_replace('/\/[0-9]\.[0-9].*$/', '', $url, 1);
@@ -43,64 +37,45 @@ function _build_cache($release, $arch, $cc_list, $cache_file)
         }
         return FALSE;
     };
+    
+    $mirrors = array();
 
-    foreach($cc_list as $cc) {
+    foreach($cc_map as $cc => $nb) {
         $rh = curl_init();
         curl_setopt($rh, CURLOPT_URL, "http://mirrorlist.centos.org/?release=${release}&arch=${arch}&repo=updates&cc=${cc}");
         curl_setopt($rh, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($rh, CURLOPT_HEADER, 0);
-        $response[$cc] = array_slice(array_filter(array_map($filter_url, explode("\n", curl_exec($rh)))), 0, 10);
+        curl_setopt($rh, CURLOPT_FOLLOWLOCATION, 1);
+        curl_setopt($rh, CURLOPT_MAXREDIRS, 5);
+        // Extract $nb items from the response, trimming the release number suffix:
+        $cc_mirrors = array_slice(array_filter(array_map($filter_url, explode("\n", curl_exec($rh)))), 0, $nb);
         curl_close($rh);
-    }
 
-    ftruncate($ch, 0);
-    fwrite($ch, json_encode($response));
-    flock($ch, LOCK_UN);
-    fclose($ch);
-}
-
-function _get_cached_mirror_list($cache_file, $weights)
-{
-    $mirrors = array();
-    $ch = fopen($cache_file, 'r');
-    flock($ch, LOCK_SH);
-    $cache_contents = json_decode(stream_get_contents($ch), TRUE);
-    flock($ch, LOCK_UN);
-    fclose($ch);
-
-    if( $cache_contents === FALSE ) {
-        error_log("[WARNING] the cache file cannot be parsed: $cache_file");
-    } else {
-        // pick $qty mirrors for each $cc (country code)
-        foreach($weights as $cc => $qty) {
-            for($i = 0; $i < $qty; $i++) {
-                if(isset($cache_contents[$cc][$i])) {
-                    $mirrors[] = $cache_contents[$cc][$i];
-                }
-            }
+        if(empty($cc_mirrors)) {
+            log_error("[ERROR] $cc mirror list is empty!");
+            return FALSE;
+        } else {
+            $mirrors = array_merge($mirrors, $cc_mirrors);
         }
     }
 
-    return array_slice($mirrors, 0, array_sum($weights));
+    return file_put_contents(_get_cache_file_name($release, $arch), implode("\n", $mirrors));
 }
 
-function get_centos_mirrors($weights, $release, $arch)
-{
-    $cache_file = "/var/cache/mirrorlist/centos-mirrors.${release}.${arch}.ini";
-    $max_timestamp = time() - 3600 * 4;
 
-    if(file_exists($cache_file) && filemtime($cache_file) >= $max_timestamp) {
+/**
+ * Retrieve the CentOS mirror list from cache
+ */
+function get_centos_mirrors($release, $arch)
+{
+    $cache_file = _get_cache_file_name($release, $arch);
+
+    if(file_exists($cache_file)) {
         // Valid cache file
-        $mirrors = _get_cached_mirror_list($cache_file, $weights);
+        $mirrors = file($cache_file);
     } else {
         // Invalid cache file
         $mirrors = array();
-    }
-
-    // Invalid cache file or invalid cache contents: trigger cache rebuild
-    if(empty($mirrors)) {
-        _build_cache($release, $arch, array_keys($weights), $cache_file);
-        $mirrors = _get_cached_mirror_list($cache_file, $weights);
     }
 
     // fallback to default mirrorlist or return valid entries

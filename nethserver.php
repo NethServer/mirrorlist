@@ -86,7 +86,7 @@ if($served_by_nethserver_mirrors) {
         $mirrors = array('http://vault.centos.org');
     } else {
         // CentOS versions served by upstream mirror infrastructure
-        $mirrors = get_centos_mirrors($ce_mirror_countries, $release, $arch);
+        $mirrors = get_centos_mirrors($release, $arch);
     }
 } else {
     // Serverd only by the NethServer master mirror

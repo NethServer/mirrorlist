@@ -12,6 +12,7 @@ The `mirrors` file format follows these rules:
 2. the line begins with the two letters country code where the mirror is 
    located, followed by a single space separator (e.g. `us `)
 3. the line continues with the base mirror URL (e.g. `http://mirror.nethserver.org/nethserver/`)
+4. the mirror URL must end with a slash "/"
 
 ## Mirror status
 
@@ -23,6 +24,11 @@ If you want to host a NethServer mirror
 
 * Read the community [HowTo](https://community.nethserver.org/t/how-to-create-your-own-nethserver-mirror/344)
 * Edit [mirrors](https://github.com/NethServer/mirrorlist/edit/master/mirrors) and open a pull request
+
+## Installation
+
+* Copy `mirrorlist-refresh` in /usr/local/bin/ and set it as executable
+* Copy `mirrorlist.cron` in /etc/cron.d/ and adjust the refresh rate
 
 ## Configuration
 
@@ -45,4 +51,6 @@ Use cases and configuration editing rules:
 
 - Before editing the `$stable_release` variable wait until the old stable CentOS
   is served by `vault` and the new one is available from CentOS mirrors
+
+
 

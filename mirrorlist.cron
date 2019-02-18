@@ -1,0 +1,7 @@
+#
+# Example. Refresh CentOS mirror list every day at 0 and 12 UTC
+#
+RANDOM_DELAY=30
+CRON_TZ=UTC
+
+0,12 5 * * *       apache /usr/local/bin/mirrorlist-refresh
