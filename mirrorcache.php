@@ -53,7 +53,7 @@ function refresh_centos_mirrors_cache($cc_map, $release, $arch)
 
         if(empty($cc_mirrors)) {
             error_log("[ERROR] $cc mirror list is empty!");
-            return FALSE;
+            continue;
         } else {
             $mirrors = array_merge($mirrors, $cc_mirrors);
         }
@@ -72,7 +72,7 @@ function get_centos_mirrors($release, $arch)
 
     if(file_exists($cache_file)) {
         // Valid cache file
-        $mirrors = file($cache_file);
+        $mirrors = array_map('trim', file($cache_file));
     } else {
         // Invalid cache file
         $mirrors = array();
