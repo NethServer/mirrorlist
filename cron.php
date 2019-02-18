@@ -30,7 +30,8 @@ require_once("mirrorcache.php");
 
 $errors = 0;
 
-foreach(array_keys($stable_releases) as $release) {
+$major_releases = array_unique(preg_replace('/^(\d).*/', '$1', $stable_releases));
+foreach($major_releases as $release) {
     foreach($stable_arches as $arch) {
         $status = refresh_centos_mirrors_cache($ce_mirror_countries, $release, $arch);
         if( ! $status) {

@@ -41,16 +41,14 @@ CentOS repositories.
 
 Use cases and configuration editing rules:
 
-- Edit ``$stable_releases`` only when NethServer releases a new version.
-  The old stable number must go to ``$vault_releases`` otherwise it becomes 404
+- Edit ``$stable_releases`` only when NethServer releases a new version and our
+  mirrors are synched.
 
-- When a CentOS stable release goes to vault, list that release number under
-  ``$vault_releases``. It is allowed to list the same release number under both
-  ``$stable_releases`` and ``$vault_releases``: the latter takes precedence and
-  the release is served by `mirror.nethserver.org` and `vault.centos.org`
+- When a CentOS release goes to vault, list that release number under
+  ``$vault_releases``. At that point it can be removed from NethServer mirrors
+  too.
 
-- Before editing the `$stable_release` variable wait until the old stable CentOS
-  is served by `vault` and the new one is available from CentOS mirrors
+
 
 
 

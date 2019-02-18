@@ -20,10 +20,10 @@
  * along with NethServer.  If not, see COPYING.
  */
 
-// Map an upstream major version number to the latest stable NethServer release
+// Version numbers served by mirrors
 $stable_releases = array(
-    '6' => '6.10',
-    '7' => '7.6.1810',
+    '6.10',
+    '7.6.1810',
 );
 
 $ce_mirror_countries = array(
