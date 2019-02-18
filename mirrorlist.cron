@@ -4,4 +4,4 @@
 RANDOM_DELAY=30
 CRON_TZ=UTC
 
-0,12 5 * * *       apache /usr/bin/php /var/www/mirrorlist.nethserver.org/cron.php
+45 0,12 * * *       apache /usr/bin/php /var/www/mirrorlist.nethserver.org/cron.php
