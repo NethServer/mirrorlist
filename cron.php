@@ -19,7 +19,12 @@
  * You should have received a copy of the GNU General Public License
  * along with NethServer.  If not, see COPYING.
  */
- 
+
+if(!defined('STDIN')) {
+    error_log("[ERROR] Script must run from Bash or Cron");
+    exit(1);
+}
+
 require_once("config.php");
 require_once("mirrorcache.php");
 

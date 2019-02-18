@@ -2,7 +2,7 @@ Options +SymLinksIfOwnerMatch
 
 RewriteEngine on
 
-RewriteRule "^mirrorlist-refresh" /error [L]
+RewriteRule "^cron" /error [L]
 RewriteRule "^(\d[\d\.]*)/centos$" /centos.php/$1/ [END]
 RewriteRule "^(\d[\d\.]*)/nethserver$" /nethserver.php/$1/ [END]
 

@@ -27,8 +27,8 @@ If you want to host a NethServer mirror
 
 ## Installation
 
-* Copy `mirrorlist-refresh` in /usr/local/bin/ and set it as executable
-* Copy `mirrorlist.cron` in /etc/cron.d/ and adjust the refresh rate
+* Clone this repository in the "mirrorlist" web site root directory
+* Copy `mirrorlist.cron` in /etc/cron.d/ and adjust the script path and run frequency
 
 ## Configuration
 

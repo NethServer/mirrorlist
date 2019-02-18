@@ -52,7 +52,7 @@ function refresh_centos_mirrors_cache($cc_map, $release, $arch)
         curl_close($rh);
 
         if(empty($cc_mirrors)) {
-            log_error("[ERROR] $cc mirror list is empty!");
+            error_log("[ERROR] $cc mirror list is empty!");
             return FALSE;
         } else {
             $mirrors = array_merge($mirrors, $cc_mirrors);
