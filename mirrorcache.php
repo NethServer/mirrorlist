@@ -47,16 +47,15 @@ function refresh_centos_mirrors_cache($cc_map, $release, $arch)
         curl_setopt($rh, CURLOPT_HEADER, 0);
         curl_setopt($rh, CURLOPT_FOLLOWLOCATION, 1);
         curl_setopt($rh, CURLOPT_MAXREDIRS, 5);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 60);
         // Extract $nb items from the response, trimming the release number suffix:
         $cc_mirrors = array_slice(array_filter(array_map($filter_url, explode("\n", curl_exec($rh)))), 0, $nb);
-        curl_close($rh);
-
         if(empty($cc_mirrors)) {
-            error_log("[ERROR] $cc mirror list is empty!");
-            continue;
+            error_log("[ERROR] $cc mirror list is empty: " . curl_error($rh);
         } else {
             $mirrors = array_merge($mirrors, $cc_mirrors);
         }
+        curl_close($rh);
     }
 
     return file_put_contents(_get_cache_file_name($release, $arch), implode("\n", $mirrors));
