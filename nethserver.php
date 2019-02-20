@@ -56,9 +56,10 @@ if($arch == 'armv7hl') {
     $arch = 'armhfp';
 }
 
-// Assign to nsrelease a default full stable release number, required by
-// legacy/unlocked clients that do not send it:
-if( ! $nsrelease) {
+// Assign to $nsrelease a default full stable release number. This is required
+// by legacy/unlocked clients and plain CentOS installations that do not send
+// $nsrelease properly:
+if( ! preg_match("/^${release}\./", $nsrelease)) {
     $nsrelease = array_shift(preg_grep("/^${release}\./", $stable_releases));
 }
 
