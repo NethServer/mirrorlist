@@ -50,9 +50,12 @@ $development_repos = array(
 );
 
 
-// Alternative architectures:
-// - stable goes to mirror,
-// - development goes to packages.nethserver.org
+// Architectures:
+//
+// - "stable" goes to the official NS mirror infrastructure
+//
+// - "development" goes to mirror.nethserver.org
+//
 $stable_arches = array(
     'x86_64',
 );

@@ -51,6 +51,9 @@ if(in_array($nsrelease, $vault_releases)) {
     $mirrors = array('http://vault.centos.org/');
 } else {
     $mirrors = get_centos_mirrors($release, $arch);
+    if(empty($mirrors)) {
+        $mirrors = array('http://mirror.centos.org/centos');
+    }
 }
 
 foreach($mirrors as $mirror) {

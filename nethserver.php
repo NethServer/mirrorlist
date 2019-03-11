@@ -91,10 +91,22 @@ if($served_by_nethserver_mirrors) {
     // map to real repository name, extracting the $repo_suffix (required by SCLo):
     list($repo, $repo_suffix) = array_merge(explode('-', $ce_repos[$repo], 2), array(''));
     if(in_array($nsrelease, $vault_releases)) {
-        $mirrors = array('http://vault.centos.org');
+        // CentOS versions served by vault.centos.org
+        if($arch == 'x86_64') {
+            $mirrors = array('http://vault.centos.org/centos');
+        } else {
+            $mirrors = array('http://vault.centos.org/altarch');
+        }
     } else {
         // CentOS versions served by upstream mirror infrastructure
         $mirrors = get_centos_mirrors($release, $arch);
+        if(empty($mirrors)) {
+            if($arch == 'x86_64') {
+                $mirrors = array('http://mirror.centos.org/centos');
+            } else {
+                $mirrors = array('http://mirror.centos.org/altarch');
+            }
+        }
     }
 } else {
     // Serverd only by the NethServer master mirror

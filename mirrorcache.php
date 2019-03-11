@@ -77,6 +77,5 @@ function get_centos_mirrors($release, $arch)
         $mirrors = array();
     }
 
-    // fallback to default mirrorlist or return valid entries
-    return empty($mirrors) ? array('http://mirror.centos.org/centos') : $mirrors;
+    return $mirrors;
 }
