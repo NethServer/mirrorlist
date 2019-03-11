@@ -32,7 +32,12 @@ $errors = 0;
 
 $major_releases = array_unique(preg_replace('/^(\d).*/', '$1', $stable_releases));
 foreach($major_releases as $release) {
-    foreach($stable_arches as $arch) {
+    foreach(array_merge($stable_arches, $development_arches) as $arch) {
+        // skip altarch for 6 branch
+        if($release == '6' && $arch != 'x86_64') {
+            continue;
+        }
+
         $status = refresh_centos_mirrors_cache($ce_mirror_countries, $release, $arch);
         if( ! $status) {
             error_log("[ERROR] Failed to write $release $arch cache file");
