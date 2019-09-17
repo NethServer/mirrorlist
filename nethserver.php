@@ -90,7 +90,12 @@ if($served_by_nethserver_mirrors) {
 } elseif (in_array($repo, array_keys($ce_repos))) {
     // map to real repository name, extracting the $repo_suffix (required by SCLo):
     list($repo, $repo_suffix) = array_merge(explode('-', $ce_repos[$repo], 2), array(''));
-    if(in_array($nsrelease, $vault_releases)) {
+
+    if($repo == 'sclo' && $arch == 'armhfp') {
+        $repo = 'empty';
+        $repo_suffix = '';
+        $mirrors = array('http://mirror.nethserver.org/nethserver');
+    } elseif(in_array($nsrelease, $vault_releases)) {
         // CentOS versions served by vault.centos.org
         if($arch == 'x86_64') {
             $mirrors = array('http://vault.centos.org/centos');
