@@ -41,8 +41,11 @@ CentOS repositories.
 
 Use cases and configuration editing rules:
 
-- Edit ``$stable_releases`` only when NethServer releases a new version and our
-  mirrors are synched.
+- When both a new CentOS has been released and NethServer development release is
+  available, edit ``$development_releases``.
+
+- Move a ``$development_releases`` to ``$stable_releases`` only when NethServer
+  releases a new stable version and our mirrors are synched.
 
 - When a CentOS release goes to vault, list that release number under
   ``$vault_releases``. At that point it can be removed from NethServer mirrors
