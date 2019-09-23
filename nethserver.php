@@ -65,7 +65,7 @@ if( ! preg_match("/^${release}\./", $nsrelease)) {
 
 $major_releases = array_unique(preg_replace('/^(\d).*/', '$1', $stable_releases));
 $valid_release = in_array($release, $major_releases);
-$valid_nsrelease = in_array($nsrelease, array_merge($stable_releases, $vault_releases)) && ($nsrelease[0] == $release[0]);
+$valid_nsrelease = in_array($nsrelease, array_merge($stable_releases, $vault_releases, $development_releases)) && ($nsrelease[0] == $release[0]);
 $valid_arch = in_array($arch, array_merge($stable_arches, $development_arches));
 $valid_repo = in_array($repo, array_merge($ns_repos,array_keys($ce_repos)));
 
@@ -79,7 +79,7 @@ if( ! $valid_release || ! $valid_arch || ! $valid_repo || ! $valid_nsrelease ) {
 
 
 $served_by_nethserver_mirrors = in_array($repo, $ns_repos)
-  && ! (in_array($nsrelease, $vault_releases)
+  && ! (in_array($nsrelease, array_merge($vault_releases, $development_releases))
         || in_array($repo, $development_repos)
         || in_array($arch, $development_arches))
 ;

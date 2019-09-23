@@ -26,6 +26,11 @@ $stable_releases = array(
     '7.6.1810',
 );
 
+// Other valid version numbers served by mirror.nethserver.org
+$development_releases = array(
+    '7.7.1908',
+);
+
 $ce_mirror_countries = array(
     'au' => 1,
     'br' => 1,
@@ -37,8 +42,7 @@ $ce_mirror_countries = array(
 );
 
 // Upstream versions served by vault.centos.org. It implies the same NethServer
-// releases aren't served by NethServer mirrors any more. Add the release
-// numbers here to prevent undesired upgrades when yum-cron runs.
+// releases are not served by NethServer mirrors any more.
 $vault_releases = array(
     '7.5.1804',
 );
