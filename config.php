@@ -45,6 +45,7 @@ $ce_mirror_countries = array(
 // releases are not served by NethServer mirrors any more.
 $vault_releases = array(
     '7.5.1804',
+    '7.6.1810',
 );
 
 // Repositories that are always served by packages.nethserver.org
