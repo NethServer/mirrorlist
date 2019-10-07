@@ -23,12 +23,11 @@
 // Version numbers served by mirrors
 $stable_releases = array(
     '6.10',
-    '7.6.1810',
+    '7.7.1908',
 );
 
 // Other valid version numbers served by mirror.nethserver.org
 $development_releases = array(
-    '7.7.1908',
 );
 
 $ce_mirror_countries = array(
@@ -44,7 +43,6 @@ $ce_mirror_countries = array(
 // Upstream versions served by vault.centos.org. It implies the same NethServer
 // releases are not served by NethServer mirrors any more.
 $vault_releases = array(
-    '7.5.1804',
     '7.6.1810',
 );
 
