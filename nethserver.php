@@ -37,7 +37,8 @@ $ns_repos = array(
     'updates',
     'testing',
     'nethforge',
-    'nethforge-testing'
+    'nethforge-testing',
+    'ns6upgrade',
 );
 
 // Map our repository name to CentOS name
