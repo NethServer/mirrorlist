@@ -28,6 +28,7 @@ $stable_releases = array(
 
 // Other valid version numbers served by mirror.nethserver.org
 $development_releases = array(
+    '7.8.2003',
 );
 
 $ce_mirror_countries = array(
