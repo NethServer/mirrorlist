@@ -23,12 +23,11 @@
 // Version numbers served by mirrors
 $stable_releases = array(
     '6.10',
-    '7.7.1908',
+    '7.8.2003',
 );
 
 // Other valid version numbers served by mirror.nethserver.org
 $development_releases = array(
-    '7.8.2003',
 );
 
 $ce_mirror_countries = array(
