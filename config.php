@@ -43,6 +43,7 @@ $ce_mirror_countries = array(
 // Upstream versions served by vault.centos.org. It implies the same NethServer
 // releases are not served by NethServer mirrors any more.
 $vault_releases = array(
+    '6.10',
     '7.6.1810',
     '7.7.1908',
     '7.8.2003',
