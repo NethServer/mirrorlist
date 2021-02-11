@@ -97,10 +97,6 @@ if($served_by_nethserver_mirrors) {
         $repo = 'empty';
         $repo_suffix = '';
         $mirrors = array('http://mirror.nethserver.org/nethserver');
-    } elseif($repo == 'sclo' && $repo_suffix == 'sclo' && $arch == 'aarch64') {
-        $repo = 'empty';
-        $repo_suffix = '';
-        $mirrors = array('http://mirror.nethserver.org/nethserver');
     } elseif(in_array($nsrelease, $vault_releases)) {
         // CentOS versions served by vault.centos.org
         if($arch == 'x86_64') {
