@@ -6,5 +6,8 @@ RewriteRule "^cron" /error [L]
 RewriteRule "^(\d[\d\.]*)/centos$" /centos.php/$1/ [END]
 RewriteRule "^(\d[\d\.]*)/nethserver$" /nethserver.php/$1/ [END]
 
+RewriteCond %{REQUEST_URI} ^/rockylinux
+RewriteRule ^rockylinux.*$ https://mirrors.rockylinux.org/mirrorlist [L,QSA]
+
 RewriteCond %{QUERY_STRING} "repo="
 RewriteRule "^$" /nethserver.php [END]
