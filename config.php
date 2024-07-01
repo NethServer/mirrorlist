@@ -36,6 +36,7 @@ $vault_releases = array(
     '7.6.1810',
     '7.7.1908',
     '7.8.2003',
+    '7.9.2009',
 );
 
 // Repositories that are always served by packages.nethserver.org
