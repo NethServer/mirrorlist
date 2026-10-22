@@ -1,5 +1,12 @@
 # mirrorlist
 
+> [!NOTE]
+> This repository is archived. NethServer 6 and 7 reached their end of life
+> and community mirrors are no longer used: `mirrorlist.nethserver.org` now
+> returns static responses that point to `mirror.nethserver.org` and
+> `vault.centos.org`, and it no longer runs this code. The mirror status page
+> was retired too. Thanks to everyone who hosted a NethServer mirror!
+
 This is the list of official NethServer mirrors. 
 
 If you think some mirror should be added/removed feel free to [edit the mirrors
